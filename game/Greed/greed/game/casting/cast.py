@@ -98,7 +98,7 @@ class Cast:
         FONT_SIZE = 15
 
         for n in range(DEFAULT_ARTIFACTS):
-            objects = [42, 79, 124]
+            objects = [94, 79, 124]
             object = chr(random.choice(objects))
 
             x = random.randint(1, COLS - 1)
@@ -117,7 +117,10 @@ class Cast:
             artifact.set_color(color)
             artifact.set_position(position)
 
-            if object == chr(124):
-                self.add_actor("bullets", artifact)
+            if object == chr(94):
+                self.add_actor("rockets", artifact)
+            elif object == chr(124):
+                self.add_actor("lasers", artifact)
             else:
+                artifact.set_life(3)
                 self.add_actor("artifacts", artifact)

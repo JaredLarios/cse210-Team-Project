@@ -18,7 +18,8 @@ class Director:
         self._keyboard_service = keyboard_service
         self._video_service = video_service
         self._art = artifact
-        self._points = 0
+        self._lives = 0
+        self._level = 0
         self._path = path
         self._point = point
         self._color = color
@@ -52,10 +53,15 @@ class Director:
             velocity = self._art.falling()
             arts.set_velocity(velocity)
 
-        bullets = cast.get_actors("bullets")
-        for bullet in bullets:
+        rockets = cast.get_actors("rockets")
+        for rocket in rockets:
             velocity = self._art.falling()
-            bullet.set_velocity(velocity)
+            rocket.set_velocity(velocity)
+
+        lasers = cast.get_actors("lasers")
+        for laser in lasers:
+            velocity = self._art.falling()
+            laser.set_velocity(velocity)
         
         
     def _do_updates(self, cast):
@@ -67,27 +73,43 @@ class Director:
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
         artifacts = cast.get_actors("artifacts")
-        bullets = cast.get_actors("bullets")
+        rockets = cast.get_actors("rockets")
+        lasers = cast.get_actors("lasers")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x)
 
-        self._art.move_up(max_x, bullets)
-        self._art.move_down(max_x, artifacts)
+        self._art.move_up(max_x, rockets)
+        self._art.move_down(max_x, lasers)
+        self._lives = robot.get_life()
         
-        for artifact in artifacts:
-            
-            if robot.get_position().equals(artifact.get_position()) or artifact.get_position().greater(max_y):
-                cast.remove_actor("artifacts", artifact)
-                if robot.get_position().equals(artifact.get_position()) :
-                    self._points += 1 if artifact.get_text() == '*' else -1
-                    print(self._points)
+        for laser in lasers:  
+            if robot.get_position().equals(laser.get_position()) or laser.get_position().greater(max_y):
+                cast.remove_actor("lasers", laser)
+                if robot.get_position().equals(laser.get_position()) :
+                    self._lives -= 1
+                    robot.set_life(self._lives)
+                    print(robot.get_life())
+        
+        for rocket in rockets:
+            for artifact in artifacts:  
+                if artifact.get_position().equals(rocket.get_position()):
+                    cast.remove_actor("rockets", rocket)
+                    if artifact.get_position().equals(rocket.get_position() or laser.get_position().greater(-max_y)) :
+                        alien_life = artifact.get_life() 
+                        alien_life -= 1
+                        artifact.set_life(alien_life)
+                        print(f"Alien Life: {artifact.get_life()}")
+                    
+                    if artifact.get_life() <= 0:
+                        cast.remove_actor("artifacts", artifact)
 
-        if len(artifacts) < 10:
+        if len(lasers) < 5:
             cast.generate()
-        banner.set_text(f'Score: {self._points}')
+
+        banner.set_text(f'Lives: {self._lives}  Level: {self._level}')
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.

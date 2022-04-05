@@ -20,11 +20,28 @@ class Actor:
     def __init__(self):
         """Constructs a new Actor."""
         self._text = ""
+        self._life = 0
         self._font_size = 15
         self._color = Color(255, 255, 255)
         self._position = Point(0, 0)
         self._velocity = Point(0, 0)
         self._cast = Cast()
+
+    def get_life(self):
+        """Gets the artifact's message.
+        
+        Returns:
+            string: The message.
+        """
+        return self._life
+    
+    def set_life(self, life = 1):
+        """Updates the message to the given one.
+        
+        Args:
+            message (string): The given message.
+        """
+        self._life = life
 
     def get_color(self):
         """Gets the actor's color as a tuple of three ints (r, g, b).

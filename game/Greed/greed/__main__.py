@@ -47,6 +47,7 @@ def main():
 
     robot = Actor()
     robot.set_text("#")
+    robot.set_life(3)
     robot.set_font_size(FONT_SIZE)
     robot.set_color(WHITE)
     robot.set_position(position)
