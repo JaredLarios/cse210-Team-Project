@@ -98,11 +98,11 @@ class Cast:
         FONT_SIZE = 15
 
         for n in range(DEFAULT_ARTIFACTS):
-            objects = [42, 79]
+            objects = [42, 79, 124]
             object = chr(random.choice(objects))
 
             x = random.randint(1, COLS - 1)
-            y = random.randint(-ROWS + 1, 1)
+            y = random.randint(1, ROWS - 1)
             position = self._Point(x, y)
             position = position.scale(CELL_SIZE)
 
@@ -116,4 +116,8 @@ class Cast:
             artifact.set_font_size(FONT_SIZE)
             artifact.set_color(color)
             artifact.set_position(position)
-            self.add_actor("artifacts", artifact)
+
+            if object == chr(124):
+                self.add_actor("bullets", artifact)
+            else:
+                self.add_actor("artifacts", artifact)

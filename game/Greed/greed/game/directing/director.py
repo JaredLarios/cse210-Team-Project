@@ -51,6 +51,11 @@ class Director:
         for arts in artifacts:
             velocity = self._art.falling()
             arts.set_velocity(velocity)
+
+        bullets = cast.get_actors("bullets")
+        for bullet in bullets:
+            velocity = self._art.falling()
+            bullet.set_velocity(velocity)
         
         
     def _do_updates(self, cast):
@@ -62,12 +67,14 @@ class Director:
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
         artifacts = cast.get_actors("artifacts")
+        bullets = cast.get_actors("bullets")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x)
-        
+
+        self._art.move_up(max_x, bullets)
         self._art.move_down(max_x, artifacts)
         
         for artifact in artifacts:

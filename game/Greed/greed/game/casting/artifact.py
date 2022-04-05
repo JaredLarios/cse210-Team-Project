@@ -51,3 +51,7 @@ class Artifact(Actor):
     def move_down(self,max_x, list): 
         for artifact in list:
             artifact.move_next(max_x)
+    
+    def move_up(self,max_x, list): 
+        for artifact in list:
+            artifact.move_prev(max_x)
