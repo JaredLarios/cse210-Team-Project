@@ -120,32 +120,32 @@ class Cast:
 
             self.add_actor("artifacts", artifact)
 
-        def shoot(self, x_position, y_position, character="alien"):
-            COLS = 60
-            ROWS = 120
+    def shoot(self, x_position, y_position, character="alien"):
+        COLS = 60
+        ROWS = 120
 
 
-            CELL_SIZE = 15
-            FONT_SIZE = 15
+        CELL_SIZE = 15
+        FONT_SIZE = 15
 
-            objects = 94 if character == "ship" else 124
-            object = chr(objects)
+        objects = 94 if character == "ship" else 124
+        object = chr(objects)
 
-            x = x_position
-            y = y_position
+        x = x_position
+        y = y_position
 
-            origin_position = self._Point(x,y)
+        origin_position = self._Point(x,y)
 
-            r = random.randint(0, 255)
-            g = random.randint(0, 255)
-            b = random.randint(0, 255)
-            color = self._Color(r, g, b)
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        color = self._Color(r, g, b)
                 
-            artifact = self._artifact()
-            artifact.set_text(object)
-            artifact.set_font_size(FONT_SIZE)
-            artifact.set_color(color)
-            artifact.set_position(origin_position)
+        artifact = self._artifact()
+        artifact.set_text(object)
+        artifact.set_font_size(FONT_SIZE)
+        artifact.set_color(color)
+        artifact.set_position(origin_position)
 
         if object == chr(94):
             self.add_actor("rockets", artifact)

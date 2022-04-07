@@ -1,3 +1,4 @@
+import random
 class Director:
     """A person who directs the game. 
     
@@ -17,6 +18,7 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
+        self._count = 0
         self._art = artifact
         self._lives = 0
         self._level = 0
@@ -70,11 +72,17 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
+        self._count += 1
         banner = cast.get_first_actor("banners")
         ship = cast.get_first_actor("ships")
         artifacts = cast.get_actors("artifacts")
         rockets = cast.get_actors("rockets")
         lasers = cast.get_actors("lasers")
+        
+        if self._count == 3:
+            cast.shoot(ship.get_x(), ship.get_y(),"ship")
+        elif self._count == 5:
+            self._count = 0
 
         banner.set_text("")
         max_x = self._video_service.get_width()
@@ -92,7 +100,6 @@ class Director:
                     self._lives -= 1
                     ship.set_life(self._lives)
                     print(ship.get_life())
-        
         for rocket in rockets:
             for artifact in artifacts:  
                 if artifact.get_position().equals(rocket.get_position()):
@@ -102,12 +109,20 @@ class Director:
                         alien_life -= 1
                         artifact.set_life(alien_life)
                         print(f"Alien Life: {artifact.get_life()}")
-                    
-                    if artifact.get_life() <= 0:
-                        cast.remove_actor("artifacts", artifact)
 
-        if len(lasers) < 5:
-            cast.generate()
+                    if artifact.get_life() < 1:
+                        cast.remove_actor("artifacts", artifact)
+                    
+
+        #  Alliens shooting 
+        if self._count == 4:
+
+            shooter = random.choice(artifacts)
+
+            cast.shoot(shooter.get_x(), shooter.get_y())
+
+            if len(artifacts) == 0:
+                cast.generate()
 
         banner.set_text(f'Lives: {self._lives}  Level: {self._level}')
         
