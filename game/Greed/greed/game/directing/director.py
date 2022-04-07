@@ -38,14 +38,14 @@ class Director:
         self._video_service.close_window()
 
     def _get_inputs(self, cast):
-        """Gets directional input from the keyboard and applies it to the robot.
+        """Gets directional input from the keyboard and applies it to the ship.
         
         Args:
             cast (Cast): The cast of actors.
         """
-        robot = cast.get_first_actor("robots")
+        ship = cast.get_first_actor("ships")
         velocity = self._keyboard_service.get_direction()
-        robot.set_velocity(velocity)
+        ship.set_velocity(velocity)
 
         
         artifacts = cast.get_actors("artifacts")
@@ -65,13 +65,13 @@ class Director:
         
         
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+        """Updates the ship's position and resolves any collisions with artifacts.
         
         Args:
             cast (Cast): The cast of actors.
         """
         banner = cast.get_first_actor("banners")
-        robot = cast.get_first_actor("robots")
+        ship = cast.get_first_actor("ships")
         artifacts = cast.get_actors("artifacts")
         rockets = cast.get_actors("rockets")
         lasers = cast.get_actors("lasers")
@@ -79,19 +79,19 @@ class Director:
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
-        robot.move_next(max_x)
+        ship.move_next(max_x)
 
         self._art.move_up(max_x, rockets)
         self._art.move_down(max_x, lasers)
-        self._lives = robot.get_life()
+        self._lives = ship.get_life()
         
         for laser in lasers:  
-            if robot.get_position().equals(laser.get_position()) or laser.get_position().greater(max_y):
+            if ship.get_position().equals(laser.get_position()) or laser.get_position().greater(max_y):
                 cast.remove_actor("lasers", laser)
-                if robot.get_position().equals(laser.get_position()) :
+                if ship.get_position().equals(laser.get_position()) :
                     self._lives -= 1
-                    robot.set_life(self._lives)
-                    print(robot.get_life())
+                    ship.set_life(self._lives)
+                    print(ship.get_life())
         
         for rocket in rockets:
             for artifact in artifacts:  

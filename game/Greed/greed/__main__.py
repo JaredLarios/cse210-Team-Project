@@ -21,7 +21,7 @@ CELL_SIZE = 15
 FONT_SIZE = 15
 COLS = 60
 ROWS = 120
-CAPTION = "Robot Finds Kitten"
+CAPTION = "Space Ship"
 DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
 DEFAULT_ARTIFACTS = 40
@@ -45,13 +45,13 @@ def main():
     y = int(MAX_Y - 25)
     position = Point(x, y)
 
-    robot = Actor()
-    robot.set_text("#")
-    robot.set_life(3)
-    robot.set_font_size(FONT_SIZE)
-    robot.set_color(WHITE)
-    robot.set_position(position)
-    cast.add_actor("robots", robot)
+    ship = Actor()
+    ship.set_text("#")
+    ship.set_life(3)
+    ship.set_font_size(FONT_SIZE)
+    ship.set_color(WHITE)
+    ship.set_position(position)
+    cast.add_actor("ships", ship)
 
 
     cast.create_artifact(DATA_PATH, Point, Artifact, Color)

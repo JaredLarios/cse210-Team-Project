@@ -148,3 +148,9 @@ class Actor:
             velocity (Point): The given velocity.
         """
         self._velocity = velocity
+
+    def get_x(self):
+        return self._position.get_x()
+    
+    def get_y(self):
+        return self._position.get_y()
